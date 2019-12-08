@@ -1,0 +1,39 @@
+#!/bin/bash
+
+sudo ip address flush dev wlp2s0
+sudo ip address add 192.168.1.10/24 dev wlp2s0
+sudo ps -All |grep wpa
+#echo -e "kill wpa: "
+#read wpa
+#sudo kill $wpa
+sudo killall wpa_supplicant
+sleep 1
+sudo wpa_supplicant -i wlp2s0 -c /etc/wpa_supplicant/wpa_hass.conf &
+sleep 1
+clear
+echo "Wait to connect..."
+sleep 10
+sudo ip route add default via 192.168.1.254 dev wlp2s0
+sleep 1
+echo ""
+echo ""
+echo "Internal ip address:"
+echo ""
+ifconfig wlp2s0 |grep inet
+
+sleep 1
+echo ""
+echo ""
+echo "Wifi signal:"
+iwconfig wlp2s0 | grep 'Bit\|Link'
+
+sleep 1
+echo ""
+echo ""
+echo "External ip address:"
+curl ifconfig.me
+echo ""
+echo "Connecting with xrlaptop.duckdns.org domain"
+sleep 1
+duckdns
+echo ""

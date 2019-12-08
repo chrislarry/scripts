@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+ iptables -I INPUT -p udp --dport 67 -i net0 -j ACCEPT
+ iptables -I INPUT -p udp --dport 53 -s 192.168.123.0/24 -j ACCEPT
+ iptables -I INPUT -p tcp --dport 53 -s 192.168.123.0/24 -j ACCEPT
+
